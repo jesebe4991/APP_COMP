@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Analizador léxico</title>
+  </head>
+  <body>
+    <h1>Analizador léxico</h1>
+    <form>
+      <label for="input">Ingrese su código fuente:</label>
+      <br />
+      <textarea id="input" name="input" rows="10" cols="50"></textarea>
+      <br />
+      <button type="button" onclick="tokenizeCode()">Analizar</button>
+    </form>
+    <h2>Tokens generados:</h2>
+    <ul id="tokens"></ul>
+
+    <script>
+     function tokenize(input) {
+        // Lista de tokens generados
+        const tokens = [];
+
+        // Expresiones regulares para reconocer tokens
+        const keywords = /^(if|else|while|for|function|return|var|let|const)$/; // palabras clave
+        const identifiers = /^([a-zA-Z_$][a-zA-Z0-9_$]*)$/; // identificadores de variables y funciones
+        const numbers = /^([0-9]+)$/; // números enteros
+        const operators = /^(\+|\-|\*|\/|\%|\=)$/; // operadores aritméticos y de asignación
+        const parentheses = /^(\(|\))$/; // paréntesis
+
+        // Recorre el código fuente y genera tokens
+  let pos = 0;
+  while (pos < input.length) {
+    // Ignora espacios en blanco y saltos de línea
+    if (/\s/.test(input[pos])) {
+      pos++;
+      continue;
+    }
+
+    // Reconoce palabras clave
+    const matchKeyword = input.slice(pos).match(keywords);
+    if (matchKeyword) {
+      tokens.push({ type: 'keyword', value: matchKeyword[0] });
+      pos += matchKeyword[0].length;
+      continue;
+    }
+
+    // Reconoce identificadores
+    const matchIdentifier = input.slice(pos).match(identifiers);
+    if (matchIdentifier) {
+      tokens.push({ type: 'identifier', value: matchIdentifier[0] });
+      pos += matchIdentifier[0].length;
+      continue;
+    }
+
+    // Reconoce números
+    const matchNumber = input.slice(pos).match(numbers);
+    if (matchNumber) {
+      tokens.push({ type: 'number', value: matchNumber[0] });
+      pos += matchNumber[0].length;
+      continue;
+    }
+
+    // Reconoce operadores
+    const matchOperator = input.slice(pos).match(operators);
+    if (matchOperator) {
+      tokens.push({ type: 'operator', value: matchOperator[0] });
+      pos += matchOperator[0].length;
+      continue;
+    }
+
+    // Reconoce paréntesis
+    const matchParenthesis = input.slice(pos).match(parentheses);
+    if (matchParenthesis) {
+      tokens.push({ type: 'parenthesis', value: matchParenthesis[0] });
+      pos += matchParenthesis[0].length;
+      continue;
+    }
+
+    // Si no se reconoce el token, genera un error
+    throw new Error(alert(`Token no reconocido en la posición ${pos}`));
+    
+  }
+
+  return tokens;
+}
+
+      function tokenizeCode() {
+        const input = document.getElementById('input').value;
+        const tokens = tokenize(input);
+        const tokensList = document.getElementById('tokens');
+        tokensList.innerHTML = '';
+        for (let i = 0; i < tokens.length; i++) {
+          const token = tokens[i];
+          const listItem = document.createElement('li');
+          listItem.innerText = `Tipo: ${token.type}, Valor: ${token.value}`;
+          tokensList.appendChild(listItem);
+        }
+      }
+    </script>
+  </body>
+</html>
