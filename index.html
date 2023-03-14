@@ -71,7 +71,7 @@ function analizarLexico(codigo) {
   let linea = 1;
   let columna = 1;
   while (codigo.length > 0) {
-    debugger
+    //debugger
     let match = null;
     for (let i = 0; i < expresionesRegulares.length; i++) {
       const expresion = expresionesRegulares[i];
@@ -109,7 +109,8 @@ function analizarSintaxis(tokens) {
   function consumir(tipo) {
 
 
-    if (tokens[indice].tipo === tipo) {
+    if (tokens[indice].tipo === tipo && (tokens.length-1) === indice) {
+      
       indice++;
     } else {
       throw new Error(`Error de sintaxis en la línea ${tokens[indice].linea}, columna ${tokens[indice].columna}: se esperaba ${tipo}, pero se encontró ${tokens[indice].tipo}`);
@@ -124,22 +125,24 @@ function analizarSintaxis(tokens) {
   }
 
   function declaracion() {
-    if (tokens[indice].tipo === 'ENTERO' || tokens[indice].tipo === 'DECIMAL' || tokens[indice].tipo === 'CHAR' || tokens[indice].tipo === 'BOOL') {
+    if (tokens[indice].tipo === 'ENTERO' || tokens[indice].tipo === 'DECIMAL' || tokens[indice].tipo === 'IDENTIFICADOR' || tokens[indice].tipo === 'BOOL') {
       debugger
-      const tipo = tokens[indice].tipo;
+      let control = tokens.length-1
+      let tipo = tokens[indice].tipo;
       consumir(tipo);
+      tipo = tokens[indice].tipo;
       const identificador = tokens[indice].valor;
-      consumir('IDENTIFICADOR');
+      consumir(tokens[indice].tipo);
       if (tokens[indice].tipo === 'PARENTESIS_IZQUIERDO') {
         consumir('PARENTESIS_IZQUIERDO');
         consumir('PARENTESIS_DERECHO');
         bloque();
       } else {
         if (tokens[indice].tipo === 'ASIGNACION') {
-          consumir('ASIGNACION');
+          consumir(tokens[indice].tipo);
           expresion();
         }
-        consumir('PUNTO_Y_COMA');
+        consumir(tokens[indice].tipo);
       }
     } else {
       throw new Error(`Error de sintaxis en la línea ${tokens[indice].linea}, columna ${tokens[indice].columna}: se esperaba una declaración de variable, pero se encontró ${tokens[indice].tipo}`);
