@@ -97,7 +97,7 @@ function analizarSintaxis(tokens) {
   let indice = 0;
 
   function consumir(tipo) {
-    if (tokens[indice].tipo === tipo) {
+    if (tokens[indice].tipo && tokens[indice].tipo === tipo) {
       indice++;
     } else {
       throw new Error(
@@ -109,45 +109,38 @@ function analizarSintaxis(tokens) {
   function programa() {
  
 
-    while (tokens[indice].tipo !== "DESCONOCIDO") {  //FIN_ARCHIVO
+    while (tokens[indice].tipo && tokens[indice].tipo !== "FIN_ARCHIVO") {  //FIN_ARCHIVO
       declaracion();
+      consumir("PUNTO_Y_COMA");
     }
   }
 
   function declaracion() {
     // try {
       if (
-        tokens[indice].tipo === "ENTERO" ||
-        tokens[indice].tipo === "DECIMAL" ||
-        tokens[indice].tipo === "IDENTIFICADOR" ||
-        tokens[indice].tipo === "BOOL"
+        tokens[indice] &&
+        (tokens[indice].tipo === "ENTERO" ||
+          tokens[indice].tipo === "DECIMAL" ||
+          tokens[indice].tipo === "IDENTIFICADOR" ||
+          tokens[indice].tipo === "BOOL")
       ) {
         
         const tipo = tokens[indice].tipo;
-        consumir(tipo);
+      consumir(tipo);
+      if (tokens[indice] && tokens[indice].tipo === "IDENTIFICADOR") {
         const identificador = tokens[indice].valor;
-           // if (tokens[indice].tipo === 'DESCONOCIDO'){
-                consumir('DESCONOCIDO')
-            // }else{
-            //     consumir(tokens[indice].tipo);
-            // }
-        
-        if (tokens[indice].tipo === "PARENTESIS_IZQUIERDO") {
-          consumir("PARENTESIS_IZQUIERDO");
-          consumir("PARENTESIS_DERECHO");
-          bloque();
-        } else {
-          if (tokens[indice].tipo === "ASIGNACION") {
-            consumir('ASIGNACION');
-            expresion();
-          }
-          consumir('PUNTO_Y_COMA');
+        consumir("IDENTIFICADOR");
+        if (tokens[indice] && tokens[indice].tipo === "ASIGNACION") {
+          consumir("ASIGNACION");
+          // Falta la lógica para hacer una asignación de valor
         }
       } else {
         throw new Error(
-          `Error de sintaxis en la línea ${tokens[indice].linea}, columna ${tokens[indice].columna}: se esperaba una declaración de variable, pero se encontró ${tokens[indice].tipo}`
+          `Error de sintaxis en la línea ${tokens[indice].linea}, columna ${tokens[indice].columna}: se esperaba un identificador después del tipo, pero se encontró ${tokens[indice].tipo}`
         );
       }
+    }
+      programa();
     // } catch (error) {
     //   console.error(error);
     // }
@@ -340,4 +333,4 @@ const body = document.body;
 
 darkModeToggle.addEventListener('click', () => {
   body.classList.toggle('dark-mode');
-})
+})  
