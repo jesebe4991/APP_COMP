@@ -334,3 +334,18 @@ const body = document.body;
 darkModeToggle.addEventListener('click', () => {
   body.classList.toggle('dark-mode');
 })  
+
+function escribirPlaceholder() {
+  const placeholder = document.querySelector('textarea').getAttribute('placeholder');
+  let i = 0;
+  let speed = 50; // Velocidad en milisegundos entre cada letra
+  function escribirLetra() {
+    if (i < placeholder.length) {
+      document.querySelector('textarea').setAttribute('placeholder', placeholder.slice(0, i+1));
+      i++;
+      setTimeout(escribirLetra, speed);
+    }
+  }
+  escribirLetra();
+}
+escribirPlaceholder();

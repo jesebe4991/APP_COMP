@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Documentacion</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="compilador.css">
+  </head>
+  <body>
+    <div class="contenedor">
+      <div class="toggle-switch">
+        <label class="switch-label">
+          <input type="checkbox" class="checkbox" id="dark-mode-toggle">
+          <span class="slider"></span>
+        </label>
+      </div> 
+        <nav>
+          <ul>
+            <li><a href="/index.html">Compilador</a></li>
+            <li><a href="/documentacion.html">Documentacion</a></li>
+          </ul>
+        </nav>
+        
+
+    <h1>Documentacion del compilador</h1>
+    <div>
+        <label for="codigo">Reglas de sintaxis:</label>
+        <br>
+        <div class="documentacion">
+            <p>
+                <p>QUE ES UNIREMINSCRIPT
+                    <br>
+                    En esta seccion se especifican las reglas de sintaxis del compilador del lenguaje de programacion unireminscript.
+                    <br>
+                    Este es lenguaje es capaz de compilar la sinstaxis de las variables, funciones y objetos.
+                </p>
+               
+
+                <p> FUNCIONAMIENTO DEL COMPILADOR 
+                    <br>
+                    Para iniciar una compilacion se debe ingresar la sintaxis en el cuadro de codigo fuente, luego el compilador realizara
+                    la compilacion por etapas.</p>
+
+                <p>ANALISIS LEXICO
+                    <br>
+                    En la primera etapa de compilacion con el analisis lexico donde este evaluara cada una de las partes del codigo fuente
+                    ingresado convirtiendolas el tokens y separandolas de acuerdo a su tipo de dato ejemplo numeros, caracteres, caracteres
+                    de asignacio, operadores, llaves o parentesis, se mostraran las diferentes partes de la sintaxis tokenizadas con la
+                    definicion de cada uno de sus tipos de datos.</p>
+                
+                <p>ANALISIS SINTACTICO
+                    <br>
+                    En la segunda etapa realizara el analisis sintactico se crear el arbol de la sintaxis en donde se muestra el arbol constuido
+                    a partir de los tokens obtenidos por el analisis lexico.</p>
+                
+                <p> ANALISIS SEMANTICO
+                    <br>
+                    En la tercera etapa de analisis semantico se valida que el arbol anterior contenga los tipos de datos correctos y se comprueba
+                    las restricciones definidas por el lenguaje.</p>
+
+                <p> DEFINICION DE VARIABLES
+                    <br>
+                    Para definir una variable esta se debe establecer con la palabra reservada let seguida de un simbolo '=' y la definicion de la
+                    variable un numero para un tipo numerico, letra para un tipo caracter ejemplo let x = 7 la sinatxis debe terminar con un punto 
+                    y coma ';'.</p>
+                <p> DEFINICION DE OBJETOS
+                    <br>
+                    Para definir un objeto este debe estar contenido dentro de un juego de llaves {} .</p>
+                <p> DEFINICION DE FUNCIONES
+                    <br>
+                    Para definir una funcion la expresion debe terminar en  parentesis () .</p>
+               
+            </p>
+        </div>
+
+    </div>
+</div>
+<!-- <script src="compilador.js"></script> -->
+<script src="compiler.js"></script>
+</body>
+
+
+ 
+</html>

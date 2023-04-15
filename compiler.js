@@ -3,14 +3,16 @@ function compilar() {
     const codigo = document.getElementById("codigo").value;
     let tokens = analisisLexico(codigo);
     let ast = analisisSintactico(tokens);
-    let simbolos = analisisSemantico(ast)
-    // ast = analyzer(ast);
+    let simbolos = analisisSemantico(ast);
     mostrarAnalisisLexico(tokens);
     mostrarAnalisisSintactico(ast);
     mostrarAnalisisSemantico(simbolos);
     return ast;
   
   }
+
+
+  
 
 function analisisLexico(input) {
     const tokens = [];
@@ -74,6 +76,7 @@ function analisisLexico(input) {
       }
       throw new TypeError('Carácter no reconocido: ' + char);
     }
+    debugPrint(`se ah compiletado la fase de analisis lexico`);
     return tokens;
   }
   
@@ -165,6 +168,7 @@ function analisisLexico(input) {
     while (current < tokens.length) {
       ast.body.push(walk());
     }
+    debugPrint(`se ah completado la fase de analisis sintactico`);
     return ast;
   }
 
@@ -174,6 +178,7 @@ function analisisLexico(input) {
     debugger;
     const variablesDeclaradas = {};
     let variableName;
+    let msg;
   
     // Primera pasada: recolectar declaraciones de variables
     ast.body.forEach((node) => {
@@ -204,14 +209,19 @@ function analisisLexico(input) {
         if (ast.body[ast.body.indexOf(node) + 2].value.type === 'ExpresionNumerica'){
 
           if (variableName === 'char'){
+            
+            msg = `Error sematico se declaro un tipo de dato: ${variableName} y se asigno un numero`
+            // mostrarValidacion(msg)
             throw new TypeError(`Error sematico se declaro un tipo de dato: ${variableName} y se asigno un numero`);
           } else {
             // Aquí se captura el valor después del nodo DeclaracionVariable si es un numero
           const valor = ast.body[ast.body.indexOf(node) + 2].value.value;
-          if (isNaN(valor)) {
+          if (isNaN(valor)) { 
+            msg = `Error sematico: ${valor} no es un numero`
+            // mostrarValidacion(msg)
             throw new TypeError(`Error sematico: ${valor} no es un numero`);
           } else {
-            console.log(`La variable declarada ${variableName} es un número: ${valor}`);
+            msg = `La variable declarada ${variableName} es un número: ${valor}`;
           }
           }
         
@@ -220,24 +230,30 @@ function analisisLexico(input) {
         // Aquí se captura el valor después del nodo DeclaracionVariable si es un caracter
           const valor = ast.body[ast.body.indexOf(node) + 2].value.name;
           if (variableName === 'int'){
+            msg = `Error sematico se declaro un tipo de dato: ${variableName} y se asigno un caracter`
+            // mostrarValidacion(msg)
             throw new TypeError(`Error sematico se declaro un tipo de dato: ${variableName} y se asigno un caracter`);
           } else {
             if (isNaN(valor)) {
-              console.log(`La variable declarada ${variableName} es un número: ${valor}`);
-            } else {          
+              msg =`La variable declarada ${variableName} es un número: ${valor}`;
+            } else {    
+              msg = `Error sematico: ${valor} no es un caracter`
+              // mostrarValidacion(msg)      
               throw new TypeError(`Error sematico: ${valor} no es un caracter`);
             }
           }
           
-          console.log(`la variable declarada ${variableName} es ${valor}`);
+          msg = `la variable declarada ${variableName} es ${valor}`;
         }
 
       } else if (node.type === "ExpresionNumerica") {
         // No hay nada que hacer ya que en earbol no se analisan los numeros
       } else if (node.type === "ExpresionObjeto") {
-       // No hay nada que hacer ya que en earbol no se analisan los objetos
+        msg = `Se ah declarado un Objeto correctamente`
+        // mostrarValidacion(msg)
       } else if (node.type === "ExpresionFuncion") {
-        // No hay nada que hacer ya que en earbol no se analisan las funciones
+        msg = `Se ah declarado una Funcion correctamente`
+        // mostrarValidacion(msg)
       } else if (node.type === "ExpresionOperacion") {
         // No hay nada que hacer ya que en earbol no se analisan las operaciones
       } else if (node.type === "DeclaracionVariable") {
@@ -246,7 +262,7 @@ function analisisLexico(input) {
           const valor = ast.body[ast.body.indexOf(node) + 1].name;
   
           // Aquí se imprime el nombre de la variable más el valor después de la DeclaracionVariable
-          console.log(`la variable declarada ${variableName} es ${valor}`);
+          msg = `la variable creada desde una declaracion ${variableName} es ${valor}`;
       } else if (node.type === "ExpresionFin") {
         // No hay nada que hacer
       } else {
@@ -256,8 +272,15 @@ function analisisLexico(input) {
   
     // Llamar a traverse para cada nodo del cuerpo del AST
     ast.body.forEach(traverse);
+    debugPrint(`se ah compiletado la fase de analisis semantico`);
   
-    return ast;
+    return msg;
+  }
+  function debugPrint(message) {
+    const validacionesElement = document.getElementById("validaciones");
+    const newMessageElement = document.createElement('p');
+    newMessageElement.innerText = message;
+    validacionesElement.appendChild(newMessageElement);
   }
 
   function mostrarAnalisisLexico(tokens) {
@@ -274,13 +297,31 @@ function analisisLexico(input) {
   }
 
   function mostrarAnalisisSemantico(tablaSimbolos) {
-    const resultado = JSON.stringify(tablaSimbolos, null, 2);
-    document.getElementById("semantico").textContent = resultado;
+    const resultado = document.getElementById("semantico");
+    resultado.textContent = tablaSimbolos;
   }
-  const darkModeToggle = document.querySelector('#dark-mode-toggle');
+  
+const darkModeToggle = document.querySelector('#dark-mode-toggle');
 const body = document.body;
+const text = document.pre;
 
 darkModeToggle.addEventListener('click', () => {
   body.classList.toggle('dark-mode');
+  text.classList.toggle('dark-mode')
 })  
+
+function escribirPlaceholder() {
+  const placeholder = document.querySelector('textarea').getAttribute('placeholder');
+  let i = 0;
+  let speed = 50; // Velocidad en milisegundos entre cada letra
+  function escribirLetra() {
+    if (i < placeholder.length) {
+      document.querySelector('textarea').setAttribute('placeholder', placeholder.slice(0, i+1));
+      i++;
+      setTimeout(escribirLetra, speed);
+    }
+  }
+  escribirLetra();
+}
+escribirPlaceholder();
   

@@ -11,12 +11,23 @@ body {
   animation: gradient 15s ease infinite;
 }
 
+/* Estilo para el cuerpo de la página */
+body.dark-mode {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  background:  linear-gradient(90deg, rgba(23,23,23,1) 0%, rgba(99,83,83,1) 64%, rgba(133,133,135,1) 100%);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
 /* Estilo para el contenedor principal */
 .contenedor {
   max-width: 800px;
   margin: 0 auto;
   padding: 40px 20px;
-  background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -26,6 +37,8 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
+
+
 
 /* Estilo para el interruptor de modo oscuro */
 .toggle-switch {
@@ -98,6 +111,46 @@ label {
   
 }
 
+/*Estilos de nav bar */
+nav {
+  font-size: 18px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  margin-right: 10px;
+  background-color: #4a1a8d;
+  width: 200px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+nav li:last-child {
+  margin-right: 0;
+}
+
+nav li:hover {
+  background-color: #8130f1;
+}
+
+nav a {
+  display: block;
+  padding: 10px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+
 /* Estilo para los títulos */
 h1, h2 {
   font-weight: bold;
@@ -115,6 +168,7 @@ h1, h2 {
   color: #333;
   font-size: 2em;
   margin: 1em 0;
+  padding: 5px;
 }
 h1:before, h2:before {
   content: "";
@@ -139,15 +193,27 @@ textarea {
   display: block;
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
   box-sizing: border-box;
-  resize: none;
+  font-size: 1em;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 200px;
+}
+
+textarea::placeholder {
+  display: block;
+text-align: center;
+  animation: typing 2s steps(12),
+  blink .5s infinite step-end alternate;
+  overflow: hidden;
+  
+  
 }
 
 
 /* Estilo para el área de resultados */
-pre {
+pre  {
   font-family: Consolas, monospace;
   font-size: 14px;
   line-height: 1.5;
@@ -155,9 +221,23 @@ pre {
   word-wrap: break-word;
   background-color: #eee;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 20px;
   padding: 10px;
   margin-bottom: 20px;
+  min-height: 200px;
+}
+pre.dark-mode{
+  font-family: Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #d4cdcdec;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  min-height: 200px;
 }
 .dark-mode {
   background-color: #333;
@@ -170,6 +250,7 @@ pre {
     color: #333;  background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 5px;
   }
 
 /*Estilo para botones*/
@@ -271,19 +352,6 @@ button {
 
   
 
-   /*Estilo para textarea*/
-
-   textarea {
-    display: block;
-    width: 100%;
-    padding: 0.5em;
-    font-size: 1em;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    resize: vertical;
-    min-height: 200px;
-  }
-
   .toggle-switch {
     position: relative;
     width: 100px;
@@ -345,7 +413,55 @@ button {
     -webkit-box-shadow: none;
     box-shadow: none;
   }
-  
+
+  /*Estilos para el arbol*/
+  /* Seleccionamos la lista ordenada principal */
+ol {
+  list-style-type: none; 
+  margin: 0; 
+  padding: 0;
+}
+
+/* Seleccionamos los elementos de la lista */
+li {
+  position: relative; 
+}
+
+/* Seleccionamos los elementos de la lista que tienen listas anidadas */
+li > ol > li:before {
+  content: ""; 
+  position: absolute; 
+  top: 0; 
+  left: -20px; 
+  width: 20px; 
+  border-top: 1px solid #ccc; 
+  height: 100%; 
+}
+
+/* Estilizamos los elementos de la lista que tienen listas anidadas */
+li > ol > li {
+  position: relative; 
+  margin-left: 20px; 
+}
+
+/* Estilizamos los elementos de la lista que no tienen listas anidadas */
+li:not(:last-child):before {
+  content: ""; 
+  position: absolute; 
+  top: 0; 
+  left: -20px; 
+  width: 20px; 
+  border-top: 1px solid #ccc; 
+  height: 100%; 
+}
+
+.documentacion{
+
+  background-color: #222225c0;
+  color: #ccc;
+  padding: 10px;
+  text-align: justify;
+}
 
   /* Key frames */
   @keyframes gradient {
@@ -370,4 +486,12 @@ button {
     100% {
       border-color: rgb(0, 255, 0);
     }
+  }
+
+  @keyframes typing {
+    from {width: 0;}
+  }
+
+  @keyframes blink {
+    50% {border-color: transparent;}
   }

@@ -7,18 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="compilador.css">
   </head>
-  <body>
+  <body onload="escribirPlaceholder()">
     <div class="contenedor">
       <div class="toggle-switch">
         <label class="switch-label">
           <input type="checkbox" class="checkbox" id="dark-mode-toggle">
           <span class="slider"></span>
         </label>
-      </div>  
-    <h1>Compilador en JavaScript</h1>
+      </div> 
+      <nav>
+        <ul>
+          <li><a href="/index.html">Compilador</a></li>
+          <li><a href="/documentacion.html">Documentacion</a></li>
+        </ul>
+      </nav>
+    <h1>Compilador Unireminscript</h1>
     <label for="codigo">Código fuente:</label>
     <br>
-    <textarea id="codigo" rows="10" cols="50"></textarea>
+    <textarea id="codigo" rows="10" cols="50" placeholder="Escribe aqui tu sintaxis"></textarea>
     <br>
     <button onclick="compilar()" alt="Compilar"> 
       <i>C</i>
@@ -31,13 +37,13 @@
       <i>r</i>
     </button>
     <h2>Análisis léxico:</h2>
-    <pre id="lexico"></pre>
+    <pre class="textos" id="lexico"></pre>
     <h2>Análisis sintáctico:</h2>
-    <pre id="sintactico"></pre>
+    <pre class="textos" id="sintactico"></pre>
     <h2>Análisis semántico:</h2>
-    <pre id="semantico"></pre>
-    <h2>Código objeto:</h2>
-    <pre id="codigo-objeto"></pre>
+    <pre class="textos" id="semantico"></pre>
+    <h2>Validaciones:</h2>
+    <pre class="textos" id="validaciones"></pre>
   </div>
     <!-- <script src="compilador.js"></script> -->
     <script src="compiler.js"></script>
